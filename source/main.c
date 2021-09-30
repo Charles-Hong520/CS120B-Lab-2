@@ -1,8 +1,8 @@
 /*	Author: Charles Hong
  *  Partner(s) Name: N/A
  *	Lab Section: 022
- *	Assignment: Lab #2  Exercise #1
- *	Exercise Description: Garage Door
+ *	Assignment: Lab #2  Exercise #2
+ *	Exercise Description: Parking sensor
  *
  *	I acknowledge all content contained herein, excluding template or example
  *	code, is my own original work.
