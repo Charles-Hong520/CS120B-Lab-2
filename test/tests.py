@@ -91,6 +91,10 @@ tests = [ {'description': 'PINA: 0x00 => PORTC: 0x04',
         'steps': [ {'inputs': [('PINA',0x0F)], 'iterations': 5 } ],
         'expected': [('PORTC',0x00)],
         },
+        {'description': 'PINA: 0x10 => PORTC: 0x04',
+        'steps': [ {'inputs': [('PINA',0x10)], 'iterations': 5 } ],
+        'expected': [('PORTC',0x04)],
+        },
         ]
 #watch = ['PORTC']
 
