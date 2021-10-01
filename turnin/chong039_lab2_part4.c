@@ -21,6 +21,7 @@ int main(void) {
 	unsigned char tmpA = 0x00; 
 	unsigned char tmpB = 0x00; 
 	unsigned char tmpC = 0x00; 
+	unsigned char tmpD = 0x00; 
 	unsigned char cond1 = 0x00; //exceed 140kg
 	unsigned char cond2 = 0x00; //balance |A-C| > 80
 	while(1) {
@@ -28,12 +29,7 @@ int main(void) {
 		tmpA = PINA & 0xFF;
 		tmpB = PINB & 0xFF;
 		tmpC = PINC & 0xFF;
-
 		unsigned short us_total_weight = tmpA+tmpB+tmpC;
-		const unsigned short us_max_weight = 140;
-		if(us_total_weight > us_max_weight) {
-			cond1 = 0x01;
-		}
 
 		unsigned char diff = 0x00;
 		if(tmpA>tmpC) diff = tmpA-tmpC;
@@ -41,12 +37,20 @@ int main(void) {
 
 		if(diff>80) {
 			cond2 = 0x02;
+			cond1 = 0x00;
+		} else {
+			if(us_total_weight > 140) {
+				cond1 = 0x01;
+				cond2 = 0x00;
+			}
 		}
 
-		us_total_weight = (us_total_weight>>2) & 0xFC;
 
+
+		tmpD = (us_total_weight>>2) & 0xFC;
+		tmpD = tmpD + cond1 + cond2;
 		// 2) Perform computation
-		PORTD = us_total_weight + cond2 + cond1;
+		PORTD = tmpD;
 	}
 	return 0;
 }
