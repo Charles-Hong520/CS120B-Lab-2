@@ -22,33 +22,30 @@ int main(void) {
 	unsigned char tmpB = 0x00; 
 	unsigned char tmpC = 0x00; 
 	unsigned char tmpD = 0x00; 
-	unsigned char cond1 = 0x00; //exceed 140kg
-	unsigned char cond2 = 0x00; //balance |A-C| > 80
 	while(1) {
 		// 1) Read input
 		tmpA = PINA & 0xFF;
 		tmpB = PINB & 0xFF;
 		tmpC = PINC & 0xFF;
 		unsigned short us_total_weight = tmpA+tmpB+tmpC;
-
+		unsigned char cond = 0x00;
 		unsigned char diff = 0x00;
-		if(tmpA>tmpC) diff = tmpA-tmpC;
-		else diff = tmpC-tmpA;
+		if(tmpA>tmpC) {
+			diff = tmpA-tmpC;
+		} else {
+			diff = tmpC-tmpA;
+		}
 
 		if(diff>80) {
-			cond2 = 0x02;
-			cond1 = 0x00;
-		} else {
-			if(us_total_weight > 140) {
-				cond1 = 0x01;
-				cond2 = 0x00;
-			}
+			cond+=2;
+		} 
+		if(us_total_weight > 140) {
+			cond++;
 		}
 
 
 
-		tmpD = (us_total_weight>>2) & 0xFC;
-		tmpD = tmpD + cond1 + cond2;
+		tmpD = ((us_total_weight>>2) & 0xFC) + cond;
 		// 2) Perform computation
 		PORTD = tmpD;
 	}
